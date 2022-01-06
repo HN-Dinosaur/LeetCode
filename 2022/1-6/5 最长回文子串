@@ -1,0 +1,102 @@
+//暴力 + 中心扩散
+//判断是否是回文串
+    public static boolean isHuiWen(String s){
+        int left = 0;
+        int right = s.length() - 1;
+        while(left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+    public static String divideString(String s){
+        int max = 0;
+        String longestString = s.substring(0);
+        for(int left = 0; left < s.length(); left++){
+            for(int right = left; right < s.length(); right++){
+                String temp = s.substring(left, right + 1);
+                if(isHuiWen(temp)){
+                    //是回文串
+                    if(temp.length() > max){
+                        //赋值长度
+                        max = temp.length();
+                        longestString = temp;
+                    }
+                }
+            }
+        }
+        return longestString;
+    }
+    public String longestPalindrome(String s) {
+
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        int strLen = s.length();
+        int left = 0;
+        int right = 0;
+        int len = 1;
+        int maxStart = 0;
+        int maxLen = 0;
+
+        for (int i = 0; i < strLen; i++) {
+            left = i - 1;
+            right = i + 1;
+            while (left >= 0 && s.charAt(left) == s.charAt(i)) {
+                len++;
+                left--;
+            }
+            while (right < strLen && s.charAt(right) == s.charAt(i)) {
+                len++;
+                right++;
+            }
+            while (left >= 0 && right < strLen && s.charAt(right) == s.charAt(left)) {
+                len = len + 2;
+                left--;
+                right++;
+            }
+            if (len > maxLen) {
+                maxLen = len;
+                maxStart = left;
+            }
+            len = 1;
+        }
+        return s.substring(maxStart + 1, maxStart + maxLen + 1);
+
+    }
+    public String selfPalindrome(String s){
+        if(s.length() == 0 || s == ""){
+            return "";
+        }
+        int left = 0;
+        int right = 0;
+        int len = 1;
+        int maxLen = 0;
+        int maxStart = 0;
+        for(int i = 0; i < s.length(); i++){
+            left = i - 1;
+            right = i + 1;
+            while(left >= 0 && s.charAt(i) == s.charAt(left)){
+                left--;
+                len++;
+            }
+            while(right < s.length() && s.charAt(i) == s.charAt(right)){
+                right++;
+                len++;
+            }
+            while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+                left--;
+                right++;
+                len += 2;
+            }
+            if(len > maxLen){
+                maxLen = len;
+                maxStart = left + 1;
+            }
+            len = 1;
+        }
+        return s.substring(maxStart, maxStart + maxLen);
+    }
