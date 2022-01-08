@@ -1,0 +1,21 @@
+class Solution {
+    public int heightChecker(int[] heights) {
+        //因为1 <= heights[i] <= 100
+        //建立100个桶，下标i = 0的桶不用,但是数组index是从0开始的，所以new101个桶
+        int expected[] = new int[101];
+        //将heights数组里的值按expected下标 桶放置，  放置好了即排好序了
+        for(int height: heights){
+            expected[height]++;
+        }
+        int count = 0;
+     
+        for(int i = 1, j = 0; i < expected.length; i++){
+        //如果这个下标的桶值 > 0  说明有数 则判断与heights同下标是否相同值，不同count++
+            while(expected[i]-- > 0){
+                if(heights[j++] != i)
+                    count++;
+            }
+        }
+        return count;
+    }
+}
