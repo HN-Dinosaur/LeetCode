@@ -1,0 +1,24 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        int len = nums.length;
+        //确定左边界
+        int left = 0;
+        //确定右边界
+        int right = len - 1;
+        //当左小于等于右
+        while(left <= right){
+            //取中间
+            int mid = (left + right) / 2;
+            if(nums[mid] == target){
+                return mid;
+                //[mid + 1, right]
+            }else if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                //[left, right - 1]
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+}
