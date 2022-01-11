@@ -1,0 +1,51 @@
+//1248 连续的k个奇数
+    public static int numberOfSubarrays(int[] nums, int k) {
+        int count = 0;
+        int numCount = 0;
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i; j < nums.length; j++){
+                numCount = 0;
+                for(int m = i; m <= j; m++) {
+                    if (nums[m] % 2 != 0) {
+                        numCount++;
+                    }
+                }
+                if (numCount == k) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    //1248
+    public static int SecondNumberOfSubarrays(int[] nums, int k){
+        int length = nums.length, array[] = new int[length + 2], count = 0, feed = 0;
+        array[feed] = -1;
+        for (int i = 0; i < length; i++){
+            //is odd?
+            if ((nums[i] & 1) == 1){
+                array[++feed] = i;
+            }
+        }
+        array[feed + 1] = length;
+        for (int i = 1; i + k < feed + 2; i++){
+            count += (array[i] - array[i - 1]) * (array[i + k] - array[i + k - 1]);
+
+        }
+        return count;
+    }
+    //前缀和
+    public static int preNumberOfSubarrays(int nums[], int k){
+        int count = 0;
+        int preSum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for(int num: nums){
+            preSum += (num & 1) == 1 ? 1 : 0;
+            if(map.containsKey(preSum - k)){
+                count += map.get(preSum - k);
+            }
+            map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+        }
+        return count;
+    }
