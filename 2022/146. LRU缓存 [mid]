@@ -1,0 +1,66 @@
+public class LRUCache {
+
+
+    private Map<Integer, Node> map = new HashMap<Integer, Node>();
+    private int cap;
+    private Node head, tail;
+
+    public LRUCache(int capacity) {
+        this.cap = capacity;
+        // 使用伪头部和伪尾部节点
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        if(!map.containsKey(key)){
+            return -1;
+        }
+        int val = map.get(key).value;
+        put(key, val);
+        return val;
+    }
+
+    public void put(int key, int value) {
+        Node node = new Node(key, value);
+        if(map.containsKey(key)){
+            removeNode(map.get(key));
+            addToHead(node);
+            map.put(key, node);
+        }else{
+            if(cap == map.size()){
+                Node lastNode = removeLast();
+                map.remove(lastNode.key);
+            }
+            addToHead(node);
+            map.put(key, node);
+        }
+    }
+
+    private void addToHead(Node node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+    private void removeNode(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+    private Node removeLast(){
+        Node node = tail.prev;
+        removeNode(node);
+        return node;
+    }
+}
+class Node {
+    int key;
+    int value;
+    Node prev;
+    Node next;
+    public Node() {}
+    public Node(int _key, int _value) {key = _key; value = _value;}
+}
+
