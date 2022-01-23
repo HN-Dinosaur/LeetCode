@@ -1,0 +1,70 @@
+//partition
+class Solution {
+    public static int findKthLargest(int[] nums, int k) {
+        int left = 0;
+        int len = nums.length;
+        int right = len - 1;
+
+        int target = len - k;
+        while(true){
+            int index = patition(nums,left, right);
+            if(target == index){
+                return nums[target];
+            }else if(index < target){
+                left = index + 1;
+            }else{
+                right = index - 1;
+            }
+        }
+
+    }
+    public static void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    public static int patition(int[] nums, int left, int right){
+        int pivot = nums[left];
+        int j = left;
+        for(int i = left + 1; i <= right; i++){
+            if(nums[i] < pivot){
+                j++;
+                swap(nums, j, i);
+            }
+        }
+        swap(nums, left, j);
+        return j;
+    } 
+}
+//倒叙 冒泡
+class Solution {
+    public static int findKthLargest(int[] nums, int k) {
+        //冒泡
+        BubbleSory(nums);
+        return nums[k - 1];
+    }
+}
+//Arrays
+class Solution {
+    public static int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length - k];
+    }
+    
+}
+//heap
+class Solution {
+    public static int findKthLargest(int[] nums, int k) {
+        //最小堆
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for(int i = 0; i < nums.length; i++){
+            minHeap.offer(nums[i]);
+            if(minHeap.size() > k){
+              minHeap.poll()
+            }
+        }
+        return minHeap.peek();
+
+    }
+    
+}
