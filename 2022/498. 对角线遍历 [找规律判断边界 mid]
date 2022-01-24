@@ -1,0 +1,42 @@
+class Solution {
+    public int[] findDiagonalOrder(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int all = m * n;
+        int x = 0;
+        int y = 0;
+        int[] res = new int[all];
+        for(int i = 0; i < all; i++){
+            res[i] = mat[x][y];
+            //往右上走  判断边界
+            if((x + y) % 2 == 0){
+                //第一行
+                if(y == n - 1) x++;
+                //最后一列
+                else if(x == 0) y++;
+                else{
+                    //行--
+                    //列++
+                    x--;
+                    y++;
+                }
+            }else{
+                //左下 最后一行
+                if(x == m - 1) y++;
+                //第一列
+                else if(y == 0) x++;
+                else{
+                    //行++
+                    //列--
+                    x++;
+                    y--;
+                } 
+            }
+        }
+
+
+        return res;
+        
+    }
+    
+}
