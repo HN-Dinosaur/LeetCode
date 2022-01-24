@@ -1,0 +1,66 @@
+//桶排序
+class Solution {
+    public static int[] topKFrequent(int[] nums, int k) {
+        
+        List<Integer> resArray = new ArrayList<>();
+        //记录每个数的频率
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int num: nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        List<Integer>[] list = new List[nums.length + 1];
+        for(Integer key: map.keySet()){
+            int i = map.get(key);
+            if(list[i] == null){
+                list[i] = new ArrayList<>();
+            }
+            list[i].add(key);
+        }
+
+        for(int i = list.length - 1; i >= 0 && resArray.size() < k; i--){
+            if(list[i] != null) {
+                resArray.addAll(list[i]);
+            }
+        }
+
+        int[] res = new int[k];
+        for(int i = 0; i < k; i++){
+            res[i] = resArray.get(i);
+        }
+        
+        return res;
+    }
+}
+//堆 + hash
+ public static int[] topKFrequent(int[] nums, int k) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+        //hash记录频率
+        for(int i = 0; i < nums.length; i++){
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+        //最小堆
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(k, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer a, Integer b) {
+                return map.get(a) - map.get(b);
+            }
+        });
+
+        for(Integer key: map.keySet()){
+            if(minHeap.size() < k){
+                minHeap.offer(key);
+            }else if(map.get(minHeap.peek()) < map.get(key)){
+                minHeap.poll();
+                minHeap.offer(key);
+            }
+        }
+        int[] res = new int[k];
+        for(int i = 0; i < k; i++){
+            res[i] = minHeap.poll();
+        }
+
+
+        return res;
+    }
