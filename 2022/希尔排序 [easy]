@@ -1,0 +1,14 @@
+//希尔排序 log(n) * log(n) * n
+    public static void shellSort(int[] nums){
+        for(int delta = nums.length; delta > 0; delta /= 2){
+            for(int i = delta; i < nums.length; i++){
+                int x = nums[i];
+                int j;
+                for(j = i - delta; j >= 0 && x < nums[j]; j -= delta){
+                    nums[j + delta] = nums[j];
+                }
+                nums[j + delta] = x;
+            }
+        }
+        printArray(nums);
+    }
