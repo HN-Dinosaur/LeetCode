@@ -1,0 +1,12 @@
+//选择
+    public static void selectSort(int[] nums){
+        for(int i = 0; i < nums.length; i++){
+            int max = i;
+            for(int j = i + 1; j < nums.length; j++)
+                if(nums[j] > nums[max])
+                    max = j;
+            if(max != i)
+                swap(nums, max, i);
+        }
+        printArray(nums);
+    }
