@@ -1,0 +1,113 @@
+public static void heapSort(int[] nums) {
+        for(int i = nums.length / 2 - 1; i >= 0; i--) {
+            sift(nums, i, nums.length - 1);
+        }
+        for(int i = nums.length - 1; i > 0; i--) {
+            swap(nums, 0 ,i);
+            sift(nums, 0, i - 1);
+        }
+        printArray(nums);
+    }
+    private static void sift(int[] nums, int parent, int end) {
+        int child = 2 * parent + 1;
+        int x = nums[parent];
+        while(child <= end) {
+            if(child < end && nums[child + 1] < nums[child])
+                child++;
+            if(x > nums[child]) {
+                nums[parent] = nums[child];
+                parent = child;
+                child = 2 * parent + 1;
+            } else {
+                break;
+            }
+            nums[parent] = x;
+        }
+    }
+    public static void heapSortSelf(int[] nums){
+        for(int i = nums.length / 2 - 1; i >= 0; i--){
+            sift(nums, i, nums.length - 1);
+        }
+        for(int i = nums.length - 1; i > 0; i--){
+            swap(nums, 0, i);
+            sift(nums, 0, i - 1);
+        }
+        printArray(nums);
+    }
+    //最小堆
+    public static void siftSelf(int[] nums, int parent, int end){
+        int x = nums[parent];
+        int child = parent * 2 + 1;
+        while(child <= end){
+            if(child < end && nums[child + 1] < nums[child])
+                child++;
+            if(x > nums[child]){
+                nums[parent] = nums[child];
+                parent = child;
+                child = parent * 2 + 1;
+            }else{
+                break;
+            }
+            nums[parent] = x;
+        }
+    }
+    public static void initMinHeap(ArrayList<Integer> array){
+        //初始化最小堆
+        for(int i = array.size() / 2 - 1; i >= 0; i--){
+            sift(array, i, array.size() - 1);
+        }
+        for(int i = array.size() - 1; i > 0; i--){
+            swap(array, 0, i);
+            sift(array, 0, i - 1);
+        }
+        printArray(array);
+    }
+    public static void sift(ArrayList<Integer> minHeap, int parent, int end){
+        int x = minHeap.get(parent);
+        int child = parent * 2 + 1;
+        while(child <= end){
+            if(child < end && minHeap.get(child + 1) < minHeap.get(child))
+                child++;
+            if(x > minHeap.get(child)){
+                minHeap.set(parent, minHeap.get(child));
+                parent = child;
+                child = parent * 2 + 1;
+            }else{
+                break;
+            }
+            minHeap.set(parent, x);
+        }
+
+    }
+    public static Integer poll(ArrayList<Integer> minHeap){
+        //交换至最后去
+        swap(minHeap, 0, minHeap.size() - 1);
+        //删除刚刚的root
+        int poll = minHeap.remove(minHeap.size() - 1);
+        //从上至下初始化堆
+        sift(minHeap, 0, minHeap.size() - 1);
+
+        return poll;
+    }
+    public static void addHeap(ArrayList<Integer> minHeap, int num){
+        minHeap.add(num);
+        //从下至上只与子树的父亲比较
+        for(int i = minHeap.size() / 2 - 1; i >= 0; i = i / 2 - 1){
+            insert(minHeap, i);
+        }
+    }
+    public static void insert(ArrayList<Integer> minHeap, int parent){
+        int x = minHeap.get(parent);
+        int child = parent * 2 + 1;
+        if(child + 1 < minHeap.size() && minHeap.get(child + 1) < minHeap.get(child))
+            child++;
+        if(x > minHeap.get(child)){
+            minHeap.set(parent, minHeap.get(child));
+            minHeap.set(child, x);
+        }
+    }
+    public static void swap(ArrayList<Integer> array, int i, int j){
+        int temp = array.get(i);
+        array.set(i, array.get(j));
+        array.set(j, temp);
+    }
