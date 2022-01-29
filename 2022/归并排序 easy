@@ -1,0 +1,31 @@
+//归并排序
+    private static void merge(int[] X, int[] Y, int begin1, int begin2, int n) {
+        int i = begin1, j = begin2, k = begin1;
+        while(i < begin1 + n && j < begin2 + n && j < X.length) {
+            if(X[i] <= X[j])
+                Y[k++] = X[i++];
+            else
+                Y[k++] = X[j++];
+        }
+        while(i < begin1 + n && i < X.length)
+            Y[k++] = X[i++];
+        while(j < begin2 + n && j < X.length)
+            Y[k++] = X[j++];
+    }
+    private static void mergepass(int[] X, int[] Y, int n) {
+        for(int i = 0; i < X.length; i += 2 * n)
+            merge(X, Y, i, i + n, n);
+    }
+    public static void mergeSort(int[] X) {
+        int[] Y = new int[X.length];
+        int n = 1;
+        while(n < X.length) {
+            mergepass(X, Y, n);
+            n *= 2;
+            if(n < X.length) {
+                mergepass(Y, X, n);
+                n *= 2;
+            }
+        }
+        printArray(X);
+    }
