@@ -1,0 +1,24 @@
+public List<Integer> spiralOrder(int[][] matrix) {
+        
+        List<Integer> list = new ArrayList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return list;
+        }
+        int left = 0, right = matrix[0].length - 1, top = 0, bottom = matrix.length - 1, i;
+
+        while(left <= right && top <= bottom){
+            for(i = left; i <= right; i++)
+                list.add(matrix[top][i]);
+            top++;
+            for(i = top; i <= bottom; i++)
+                list.add(matrix[i][right]);
+            right--;
+            for(i = right; i >= left && top <= bottom; i--)
+                list.add(matrix[bottom][i]);
+            bottom--;
+            for(i = bottom; i >= top && left <= right; i--)
+                list.add(matrix[i][left]);
+            left++;
+        } 
+        return list;
+    }
