@@ -1,0 +1,31 @@
+//双指针
+//两个特判
+//先排序
+//sum = nums[i] + nums[left] + nums[right]  根据大小变换  发现相同元素则++
+public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        //特判
+        if(nums == null || nums.length < 3)
+            return res;
+        //排序
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] > 0) break;
+            if(i > 0 && nums[i] == nums[i - 1]) continue;
+            int left = i + 1;
+            int right = nums.length - 1;
+            while(left < right){
+                int sum = nums[i] + nums[left] + nums[right];
+                if(sum == 0){
+                    res.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while(left < right && nums[left] == nums[left + 1]) left++;
+                    while(left < right && nums[right] == nums[right - 1]) right--;
+                    left++;
+                    right--;
+                }
+                else if(sum < 0) left++;
+                else right--;
+            }
+        }
+        return res;
+    }
