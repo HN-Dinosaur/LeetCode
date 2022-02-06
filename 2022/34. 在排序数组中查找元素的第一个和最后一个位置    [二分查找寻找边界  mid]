@@ -1,0 +1,47 @@
+
+//二分法细节很重要  找左边界，向下取整 等号归右  左 + 1；
+ //找右边界，向上取整 int mid = left + (right - left + 1) / 2  等号归左， 右 - 1;
+
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if (nums == null || nums.length == 0){
+            return new int[]{-1, -1};
+        }
+        int first = findFirst(nums, target);
+        if (first < 0)
+            return new int[]{-1, -1};
+
+        //走到这里就必然有结果了,所以函数内不用再次判断是否==target
+        int last = findLast(nums, target);
+        return new int[]{first, last};
+    }
+    public int findFirst(int[] nums, int target){
+        int left = 0;
+        int right = nums.length - 1;
+        while(left < right){
+            int mid = left + (right - left) / 2;
+            if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                right = mid;
+            }
+        }
+        if(nums[left] == target){
+            return left;
+        }
+        return -1;
+    }
+    public int findLast(int[] nums, int target){
+        int left = 0;
+        int right = nums.length - 1;
+        while(left < right){
+            int mid = left + (right - left + 1) / 2;
+            if(nums[mid] > target){
+                right = mid - 1;
+            }else{
+                left = mid;
+            }
+        }
+        return left;
+    }
+}
