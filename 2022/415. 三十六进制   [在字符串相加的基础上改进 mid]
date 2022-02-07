@@ -1,0 +1,28 @@
+public static String add36Strings(String s1, String s2){
+        StringBuffer ans = new StringBuffer("");
+        int i = s1.length() - 1;
+        int j = s2.length() - 1;
+        int add = 0, a, b, res;
+        while(i >= 0 || j >= 0 || add > 0){
+            a = i >= 0 ? getInt(s1.charAt(i)) : 0;
+            b = j >= 0 ? getInt(s2.charAt(j)) : 0;
+            res = a + b + add;
+            add = res / 36;
+            ans.append(getChar(res % 36));
+            i--;
+            j--;
+        }
+        return ans.reverse().toString();
+    }
+    public static char getChar(int num){
+        if (num <= 9)
+            return (char) (num + '0');
+        else
+            return (char) (num - 10 + 'a');
+    }
+    public static int getInt(char c){
+        if(c >= '0' && c <= '9')
+            return c - '0';
+        else
+            return c - 'a' + 10;
+    }
