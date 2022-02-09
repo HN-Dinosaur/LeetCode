@@ -1,0 +1,54 @@
+//暴力 O(n * n) 超出时间限制  不能AC
+public int maxSubArray2(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int pre = 0;
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i; j < nums.length; j++){
+                pre += nums[j];
+                if(pre > max)
+                    max = pre;
+            }
+        }
+        return max;
+    }
+//动态规划   没有优化空间复杂度
+public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        for(int i = 1; i < n; i++){
+            if(dp[i - 1] <= 0)
+                dp[i] = nums[i];
+            else 
+                dp[i] = nums[i] + dp[i - 1];
+        }
+
+        int max = dp[0];
+        for(int i = 0; i < n; i++){
+            max = Math.max(dp[i], max);
+        }
+        return max;
+    }
+    //优化空间复杂度
+    public int maxSubArray(int[] nums) {
+        int pre = 0;
+        int res = nums[0];
+        for(int num: nums){
+            pre = Math.max(num + pre, num);
+            res = Math.max(res, pre);   
+        }
+        return res;
+    }
+    //贪心算法
+    public int maxSubArray(int[] nums) {
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for(int num: nums){
+            sum += num;
+            max = Math.max(max, sum);
+            if(sum < 0)
+                sum = 0;
+        }
+        return max;
+    }
+
