@@ -1,0 +1,305 @@
+//冒泡排序 最好O(n * n) 平均O(n) 最差O(n)  不能AC
+public int[] sortArray(int[] nums) {
+        for(int i = 0; i < nums.length; i++){
+            for(int j = 0; j < nums.length - i - 1; j++){
+                if(nums[j] > nums[j + 1])
+                    swapArray(nums, j, j + 1);
+            }
+        }
+        return nums;
+    }
+    public void swapArray(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+//选择排序  最好O(n * n) 平均O(n * n) 最差O(n * n) 不能AC
+public int[] sortArray(int[] nums) {
+        int j = 0;
+        for(int i = 0; i < nums.length; i++){
+            int min = i;
+            for(j = i + 1; j < nums.length; j++){
+                if(nums[j] < nums[min])
+                    min = j;
+            }
+            if(j != i)
+                swapArray(nums, min, i);
+        }
+        return nums;
+    }
+//插入排序  最好O(n * n) 平均O(n)  最差O(n * n)  AC
+public int[] sortArray(int[] nums) {
+        for(int i = 1; i < nums.length; i++){
+            int insert = nums[i], j;
+            for(j = i - 1; j >= 0 && insert < nums[j]; j--){
+                nums[j + 1] = nums[j];
+            }
+            nums[j + 1] = insert;
+        }
+        return nums;
+    }
+    
+//希尔排序  最好最坏平均 O(n * logn * logn)
+public int[] sortArray(int[] nums) {
+        for(int delta = nums.length; delta > 0; delta /= 2){
+            for(int i = delta; i < nums.length; i++){
+                int x = nums[i], j;
+                for(j = i - delta; j >= 0 && nums[j] > x; j -= delta){
+                    nums[j + delta] = nums[j];
+                }
+                nums[j + delta] = x;
+            }
+        }
+        return nums;
+    }
+//归并排序
+
+//快速排序   最好平均O(n*logn)  最差 O(n * n)   空间复杂度 O(logn)
+public int[] sortArray(int[] nums) {
+        quickSort(nums);
+        return nums;
+    }
+    public void quickSort(int[] nums){
+        quick(nums, 0, nums.length - 1);
+    }
+    public void quick(int[] nums, int begin, int end){
+        if(begin >= 0 && end < nums.length && begin < end){
+            int x = nums[begin], i = begin, j = end;
+            while(i != j){
+                while(i < j && nums[j] >= x)
+                    j--;
+                if(i < j)
+                    nums[i++] = nums[j];
+                while(i < j && nums[i] <= x)
+                    i++;
+                if(i < j)
+                    nums[j--] = nums[i];
+            }
+            nums[i] = x;
+            quick(nums, begin, i - 1);
+            quick(nums, j + 1, end);
+        }
+    }
+//堆排序  最好最差平均(n * logn)
+public int[] sortArray(int[] nums) {
+        heapSort(nums);
+        return nums;
+    }
+    public void heapSort(int[] nums){
+        for(int i = nums.length / 2 - 1; i >= 0; i--){
+            sift(nums, i, nums.length - 1);
+        }
+        for(int i = nums.length - 1; i > 0; i--){
+            swapArray(nums, 0, i);
+            sift(nums, 0, i - 1);
+        }
+
+    }
+    public void sift(int[] nums, int parent, int end){
+        int x = nums[parent];
+        int child = parent * 2 + 1;
+        while(child <= end){
+            if(child < end && nums[child + 1] > nums[child])
+                child++;
+            if(x < nums[child]){
+                nums[parent] = nums[child];
+                parent = child;
+                child = parent * 2 + 1;
+            }else{
+                break;
+            }
+            nums[parent] = x;
+        }
+    }
+    
+    
+    public void swapArray(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+//归并排序   最好最坏平均O(n * logn)  空间复杂度 O(n)
+public void merge(int[] X, int[] Y, int begin1, int begin2, int n){
+        int i = begin1, j = begin2, k = begin1;
+        while(i < begin1 + n && j < begin2 + n && j < X.length){
+            if(X[i] <= X[j])
+                Y[k++] = X[i++];
+            else
+                Y[k++] = X[j++];
+        }
+        while(i < begin1 + n && i < X.length)
+            Y[k++] = X[i++];
+        while(j < begin2 + n && j < X.length)
+            Y[k++] = X[j++];
+        
+    }
+    public void mergePass(int[] X, int[] Y, int n){
+        for(int i = 0; i < X.length; i += n * 2){
+            merge(X, Y, i, i + n, n);
+        }
+    }
+    public void mergeSort(int[] X){
+        int[] Y = new int[X.length];
+        int n = 1;
+        while(n < X.length){
+            mergePass(X, Y, n);
+            n *= 2;
+            if(n < X.length){
+                mergePass(Y, X, n);
+                n *= 2;
+            }else{
+                for(int i = 0; i < X.length; i++){
+                    X[i] = Y[i];
+                }
+            }
+        }
+    }
+//计数排序
+   public static void countingSort(int[] nums){
+        int max = getMaxValue(nums);
+
+        int bucketLen = max + 1;
+        int[] bucket = new int[bucketLen];
+        for(int value: nums)
+            bucket[value]++;
+
+        int sortIndex = 0;
+        for(int j = 0; j < bucketLen; j++)
+            while(bucket[j]-- > 0)
+                nums[sortIndex++] = j;
+
+        printArray(nums);
+    }
+//桶排序
+    public void bucketSort(int[] nums){
+       int max = getMaxValue(nums);
+
+       int bucketLen = max / 5 + 1;
+       int[][] externalBucket = new int[bucketLen][0];
+
+       for(int i = 0; i < nums.length; i++){
+           int index = nums[i] / 5;
+           externalBucket[index] = addInternalBucket(externalBucket[index], nums[i]);
+       }
+
+        int index = 0;
+       for(int[] internalBucket: externalBucket){
+           if(internalBucket.length == 0) continue;
+
+            shellSort(internalBucket);
+            for(int num: internalBucket)
+                nums[index++] = num;
+
+       }
+    }
+    public static void shellSort(int[] nums){
+        for(int delta = nums.length; delta > 0; delta /= 2){
+            for(int i = delta; i < nums.length; i++){
+                int x = nums[i], j;
+                for(j = i - delta; j >= 0 && nums[j] > x; j -= delta)
+                    nums[j + delta] = nums[j];
+                nums[j + delta] = x;
+            }
+        }
+    }
+    public static int getMaxValue(int[] nums){
+        int max = nums[0];
+        for(int num: nums)
+            if(max < num)
+                max = num;
+        return max;
+    }
+    public int[] addInternalBucket(int[] internalBucket, int num){
+        int[] temp = Arrays.copyOf(internalBucket, internalBucket.length + 1);
+        temp[temp.length - 1] = num;
+        return temp;
+    }
+//基数排序
+public static int[] addInternalBucket(int[] internalBucket, int num){
+        int[] temp = Arrays.copyOf(internalBucket, internalBucket.length + 1);
+        temp[temp.length - 1] = num;
+        return temp;
+    }
+    public static void radixSortSelf(int[] nums){
+        int digit = getDigit(getMaxValue(nums));
+        int mod = 10;
+        int dev = 1;
+
+
+
+        for(int i = 0; i < digit; i++, mod *= 10, dev *= 10){
+            int[][] externalBucket = new int[10][0];
+            for(int j = 0; j < nums.length; j++){
+                int index = (nums[j] % mod) / dev;
+                externalBucket[index] = addInternalBucket(externalBucket[index], nums[j]);
+            }
+
+            int index = 0;
+            for(int[] internalBucket: externalBucket){
+                if(internalBucket.length == 0) continue;
+
+                for(int num: internalBucket)
+                    nums[index++] = num;
+            }
+        }
+
+        printArray(nums);
+    }
+    public static int getDigit(int num){
+        if(num == 0)
+            return 1;
+        int length = 0;
+        for(int i = num; i != 0; i /= 10){
+            length++;
+        }
+        return length;
+    }
+    //优化桶排序
+    class Solution {
+    public int[] sortArray(int[] nums) {
+        int max = getMaxValue(nums);
+        int min = getMinValue(nums);
+
+        int[] bucket = new int[max - min + 2];
+        
+        //桶++
+        for(int num: nums){
+            bucket[num - min]++;
+        }
+
+        int pre = 0;
+        //计算前边有几个数
+        for(int i = 0; i < bucket.length; i++){
+            int temp = bucket[i];
+            bucket[i] = pre;
+            pre += temp;
+        }
+
+        //放在结果数组的制定位置
+        int[] res = new int[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            int index = bucket[nums[i] - min];
+            res[index] = nums[i];
+            bucket[nums[i] - min]++;
+        }
+        
+        return res;
+    }
+    public int getMaxValue(int[] nums){
+        int max = Integer.MIN_VALUE;
+        for(int num: nums){
+            if(num > max)
+                max = num;
+        }
+        return max;
+    }
+    public int getMinValue(int[] nums){
+        int min = Integer.MAX_VALUE;
+        for(int num: nums){
+            if(num < min)
+                min = num;
+        }
+        return min;
+    }
+    
+}
