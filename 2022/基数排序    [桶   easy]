@@ -1,0 +1,39 @@
+public static int[] addInternalBucket(int[] internalBucket, int num){
+        int[] temp = Arrays.copyOf(internalBucket, internalBucket.length + 1);
+        temp[temp.length - 1] = num;
+        return temp;
+    }
+    public static void radixSortSelf(int[] nums){
+        int digit = getDigit(getMaxValue(nums));
+        int mod = 10;
+        int dev = 1;
+
+
+
+        for(int i = 0; i < digit; i++, mod *= 10, dev *= 10){
+            int[][] externalBucket = new int[10][0];
+            for(int j = 0; j < nums.length; j++){
+                int index = (nums[j] % mod) / dev;
+                externalBucket[index] = addInternalBucket(externalBucket[index], nums[j]);
+            }
+
+            int index = 0;
+            for(int[] internalBucket: externalBucket){
+                if(internalBucket.length == 0) continue;
+
+                for(int num: internalBucket)
+                    nums[index++] = num;
+            }
+        }
+
+        printArray(nums);
+    }
+    public static int getDigit(int num){
+        if(num == 0)
+            return 1;
+        int length = 0;
+        for(int i = num; i != 0; i /= 10){
+            length++;
+        }
+        return length;
+    }
