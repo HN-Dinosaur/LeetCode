@@ -1,0 +1,17 @@
+//计数排序
+    public static void countingSort(int[] nums){
+        int[] arr = Arrays.copyOf(nums, nums.length);
+        int max = getMaxValue(nums);
+
+        int bucketLen = max + 1;
+        int[] bucket = new int[bucketLen];
+        for(int value: arr)
+            bucket[value]++;
+
+        int sortIndex = 0;
+        for(int j = 0; j < bucketLen; j++)
+            while(bucket[j]-- > 0)
+                arr[sortIndex++] = j;
+
+        printArray(arr);
+    }
