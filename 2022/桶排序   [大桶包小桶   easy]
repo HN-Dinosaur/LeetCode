@@ -1,0 +1,43 @@
+public void bucketSort(int[] nums){
+       int max = getMaxValue(nums);
+
+       int bucketLen = max / 5 + 1;
+       int[][] externalBucket = new int[bucketLen][0];
+
+       for(int i = 0; i < nums.length; i++){
+           int index = nums[i] / 5;
+           externalBucket[index] = addInternalBucket(externalBucket[index], nums[i]);
+       }
+
+        int index = 0;
+       for(int[] internalBucket: externalBucket){
+           if(internalBucket.length == 0) continue;
+
+            shellSort(internalBucket);
+            for(int num: internalBucket)
+                nums[index++] = num;
+
+       }
+    }
+    public static void shellSort(int[] nums){
+        for(int delta = nums.length; delta > 0; delta /= 2){
+            for(int i = delta; i < nums.length; i++){
+                int x = nums[i], j;
+                for(j = i - delta; j >= 0 && nums[j] > x; j -= delta)
+                    nums[j + delta] = nums[j];
+                nums[j + delta] = x;
+            }
+        }
+    }
+    public static int getMaxValue(int[] nums){
+        int max = nums[0];
+        for(int num: nums)
+            if(max < num)
+                max = num;
+        return max;
+    }
+    public int[] addInternalBucket(int[] internalBucket, int num){
+        int[] temp = Arrays.copyOf(internalBucket, internalBucket.length + 1);
+        temp[temp.length - 1] = num;
+        return temp;
+    }
