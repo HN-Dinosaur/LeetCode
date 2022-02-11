@@ -1,0 +1,26 @@
+//四个辅助结点
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null)
+            return null;
+        ListNode dummyNode = new ListNode(0);
+        dummyNode.next = head;
+        ListNode lastNode = head;
+        ListNode currNode = head.next;
+        while(currNode != null){
+            if(currNode.val >= lastNode.val){
+                lastNode = lastNode.next;
+            }else{
+                ListNode prev = dummyNode;
+                while(prev.next.val <= currNode.val){
+                    prev = prev.next;
+                }
+                lastNode.next = currNode.next;
+                currNode.next = prev.next;
+                prev.next = currNode;
+            }
+            currNode = lastNode.next;
+        }
+        return dummyNode.next;
+    }
+}
