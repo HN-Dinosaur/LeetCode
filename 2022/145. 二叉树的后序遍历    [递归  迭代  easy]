@@ -1,0 +1,30 @@
+//递归
+public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        postOrder(root, list);
+        return list;
+    }
+    public List<Integer> postOrder(TreeNode root, List<Integer> list){
+        if(root == null)
+            return list;
+        postOrder(root.left, list);
+        postOrder(root.right, list);
+        list.add(root.val);
+        return list;
+    }
+//迭代
+public List<Integer> postorderTraversal(TreeNode root) {
+        Deque<TreeNode> stack = new LinkedList<>();
+        LinkedList<Integer> list = new LinkedList<>();
+        if (null == root) return list;
+        stack.addFirst(root);
+        while(!stack.isEmpty()){
+            TreeNode node = stack.removeFirst();
+            list.addFirst(node.val);
+            if(node.left != null)
+                stack.addFirst(node.left);
+            if(node.right != null)
+                stack.addFirst(node.right);
+        }
+        return list;
+    }
