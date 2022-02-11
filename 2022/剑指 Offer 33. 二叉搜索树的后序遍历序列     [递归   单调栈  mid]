@@ -1,0 +1,29 @@
+//递归判断每个树的左子树是否都小于根， 右子树都大于根
+public boolean verifyPostorder(int[] postorder) {
+        return recursive(postorder, 0, postorder.length - 1);
+    }
+    public boolean recursive(int[] postorder, int i, int j){
+        if(i >= j) return true;
+        int p = i;
+        while(postorder[p] < postorder[j]) p++;
+        int m = p;
+        while(postorder[p] > postorder[j]) p++;
+
+        return p == j && recursive(postorder, i, m - 1) && recursive(postorder, m, j - 1);
+    }
+//单调栈
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        Stack<Integer> stack = new Stack<>();
+        int parent = Integer.MAX_VALUE;
+        for(int i = postorder.length - 1; i >= 0; i--){
+            int cur = postorder[i];
+            while(!stack.isEmpty() && cur < stack.peek())
+                parent = stack.pop();
+            if(cur > parent) return false;
+            stack.push(cur);
+        }
+        return true;
+    }
+    
+}
