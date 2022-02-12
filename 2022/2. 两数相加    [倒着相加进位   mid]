@@ -1,0 +1,21 @@
+public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int add = 0;
+        ListNode hair = new ListNode(0);
+        ListNode temp = hair;
+        int i, j, res;
+        while(l1 != null || l2 != null){
+            i = l1 == null ? 0 : l1.val;
+            j = l2 == null ? 0 : l2.val;
+            res = i + j + add;
+            add = res / 10;
+            temp.next = new ListNode(res % 10);
+            temp = temp.next;            
+            if(l1 != null)
+                l1 = l1.next;
+            if(l2 != null)
+                l2 = l2.next;
+        }
+        if(add != 0)
+            temp.next = new ListNode(add);
+        return hair.next;
+    }
