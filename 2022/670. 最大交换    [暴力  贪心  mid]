@@ -1,0 +1,51 @@
+//暴力
+class Solution {
+    public int maximumSwap(int num) {
+        String s = String.valueOf(num);
+        char[] charArray = s.toCharArray();
+        int n = charArray.length;
+
+        int max = num;
+        for(int i = 0; i < n; i++){
+            for(int j = i + 1; j < n; j++){
+                swap(charArray, i, j);
+                max = Math.max(Integer.parseInt(new String(charArray)), max);
+                swap(charArray, i, j);
+            }
+        }
+        return max;
+    }
+    public void swap(char[] array, int index1, int index2){
+        char temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
+    }
+}
+//贪心算法
+public int maximumSwap(int num) {
+        String s = String.valueOf(num);
+        char[] charArray = s.toCharArray();
+        int n = charArray.length;
+
+        int[] last = new int[10];
+        //把下标记录下来
+        for(int i = 0; i < n; i++){
+            last[charArray[i] - '0'] = i;
+        }
+
+        for(int i = 0; i < n; i++){
+            for(int j = 9; j > charArray[i] - '0'; j--){
+                //如果大数下标大于当前下标
+                if(last[j] > i){
+                    swap(charArray, i, last[j]);
+                    return Integer.parseInt(new String(charArray));
+                }
+            }
+        }
+        return num;
+    }
+    public void swap(char[] array, int index1, int index2){
+        char temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
+    }
