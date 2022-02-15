@@ -1,0 +1,14 @@
+//计算每个结点的最大路径
+    int res = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        subTreeHeight(root);
+        return res;
+    }
+    public int subTreeHeight(TreeNode root){
+        if(root == null)
+            return 0;
+        int leftHeight = subTreeHeight(root.left);
+        int rightHeight = subTreeHeight(root.right);
+        res = Math.max(res, leftHeight + rightHeight);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
