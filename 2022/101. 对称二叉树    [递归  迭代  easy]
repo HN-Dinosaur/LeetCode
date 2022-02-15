@@ -1,0 +1,36 @@
+//迭代   通过队列  相邻的结点必然相等
+public boolean isSymmetric(TreeNode root) {
+        return queueIsSymmetric(root, root);
+    }
+    public boolean queueIsSymmetric(TreeNode root1, TreeNode root2){
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root1);
+        queue.offer(root2);
+        while(!queue.isEmpty()){
+            TreeNode p = queue.poll();
+            TreeNode q = queue.poll();
+            if(p == null && q == null)
+                continue;
+            if(p == null || q == null || p.val != q.val)
+                return false;
+            queue.offer(p.left);
+            queue.offer(q.right);
+
+            queue.offer(p.right);
+            queue.offer(q.left);
+        }
+        return true;
+    }
+//递归    判断每一层对称结点是否相等
+ public boolean isSymmetric(TreeNode root) {
+        return recursiveIsSymmetric(root, root);
+    }
+    public boolean recursiveIsSymmetric(TreeNode root1, TreeNode root2){
+        if(root1 == null && root2 == null)
+            return true;
+        if(root1 == null || root2 == null)
+            return false;
+
+        return root1.val == root2.val && recursiveIsSymmetric(root1.left, root2.right) && recursiveIsSymmetric(root1.right, root2.left);
+
+    }
