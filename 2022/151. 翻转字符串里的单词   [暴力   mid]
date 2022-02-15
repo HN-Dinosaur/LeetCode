@@ -1,0 +1,12 @@
+//暴力
+public static String reverseWords(String s) {
+        String[] strArray = s.split(" ");
+        StringBuffer res = new StringBuffer();
+        for(int i = strArray.length - 1; i >= 0; i--){
+            if(strArray[i].length() == 0)
+                continue;
+            res.append(strArray[i] + " ");
+        }
+        res.replace(res.length() - 1, res.length(), "");
+        return res.toString();
+    }
