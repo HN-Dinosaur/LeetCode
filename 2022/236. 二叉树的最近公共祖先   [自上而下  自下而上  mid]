@@ -1,0 +1,43 @@
+//自上而下
+TreeNode res = null;
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root, p, q);
+        return res;
+    }
+    public boolean dfs(TreeNode root, TreeNode p, TreeNode q){
+        if(root == null)
+            return false;
+        boolean left = dfs(root.left, p, q);
+        boolean right = dfs(root.right, p, q);
+        if(left && right || (p.val == root.val || q.val == root.val) && (left || right))
+            res = root;
+        return left || right || p.val == root.val || q.val == root.val;
+    }
+    
+//自下而上
+Map<Integer, TreeNode> map = new HashMap<>();
+    Set<Integer> set = new HashSet<>();
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root);
+        while(p != null){
+            set.add(p.val);
+            p = map.get(p.val);
+        }
+        while(q != null){
+            if(set.contains(q.val))
+                return q;
+            set.add(q.val);
+            q = map.get(q.val);
+        }
+        return null;
+    }
+    public void dfs(TreeNode root){
+        if(root.left != null){
+            map.put(root.left.val, root);
+            dfs(root.left);
+        }
+        if(root.right != null){
+            map.put(root.right.val, root);
+            dfs(root.right);
+        }
+    }
