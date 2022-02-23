@@ -1,0 +1,17 @@
+public ListNode getKthFromEnd(ListNode head, int k) {
+        if(head == null)
+            return null;
+
+        ListNode tail = head;
+        ListNode res = head;
+        for(int i = 0; i < k; i++){
+            tail = tail.next;
+            if(tail == null)
+                return res;
+        }
+        while(tail != null){
+            tail = tail.next;
+            res = res.next;
+        }
+        return res;
+    }
