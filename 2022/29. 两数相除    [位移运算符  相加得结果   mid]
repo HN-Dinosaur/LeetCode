@@ -1,0 +1,31 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        if(dividend == 0)
+            return 0;
+        if(divisor == 1)
+            return dividend;
+        if(divisor == -1 && dividend == Integer.MIN_VALUE)
+            return  Integer.MAX_VALUE;
+        if(divisor < 0 && dividend < 0)
+            return divide(-(long) dividend, -(long) divisor);
+        else if(divisor < 0 || dividend < 0)
+            return -divide(Math.abs((long) dividend), Math.abs((long) divisor));
+        else 
+            return divide((long) dividend, (long) divisor);
+    }
+    public int divide(long dividend, long divisor){
+        if(dividend < divisor)
+            return 0;
+        long sum = divisor;
+        int count = 1;
+        while(dividend >= sum){
+            sum <<= 1;
+            count <<= 1;
+        }
+        sum >>>= 1;
+        count >>>= 1;
+        return count + divide(dividend - sum, divisor);
+    }
+
+    
+}
