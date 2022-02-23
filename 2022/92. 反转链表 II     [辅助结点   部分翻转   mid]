@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummyNode = new ListNode(0);
+        dummyNode.next = head;
+        ListNode prev = dummyNode;
+        head = prev;
+        for(int i = 0; i < left; i++){
+            head = head.next;
+            if(head == null)
+                return dummyNode.next;
+        }
+        while(prev != null && prev.next != head)
+            prev = prev.next;
+        //此时prev的next就是left
+        ListNode tail = head;
+        for(int i = 0; i < right - left; i++){
+            tail = tail.next;
+            if(tail == null)
+                return dummyNode.next;
+        }
+        ListNode nextOne = tail.next;
+        //此时tail就是right
+        ListNode[] reverseArray = reverse(head, tail);
+        head = reverseArray[0];
+        tail = reverseArray[1];
+        prev.next = head;
+        tail.next = nextOne;
+        return dummyNode.next;    
+        
+
+    }
+    public ListNode[] reverse(ListNode head, ListNode tail){
+        ListNode pre = null;
+        ListNode cur = head;
+        while(pre != tail){
+            ListNode nextNode = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = nextNode;
+        }
+        return new ListNode[]{tail, head};
+    }
+}
