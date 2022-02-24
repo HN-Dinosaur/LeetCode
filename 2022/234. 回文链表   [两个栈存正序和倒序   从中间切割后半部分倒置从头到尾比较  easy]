@@ -1,0 +1,93 @@
+//找到中间然后  将后半部分倒置  两个从头到尾比较
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null) {
+            return true;
+        }
+
+        // 找到前半部分链表的尾节点并反转后半部分链表
+        ListNode firstHalfEnd = endOfFirstHalf(head);
+        ListNode secondHalfStart = reverseList(firstHalfEnd.next);
+
+        // 判断是否回文
+        ListNode p1 = head;
+        ListNode p2 = secondHalfStart;
+        boolean result = true;
+        while (result && p2 != null) {
+            if (p1.val != p2.val) {
+                result = false;
+            }
+            p1 = p1.next;
+            p2 = p2.next;
+        }        
+        return result;
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+
+    private ListNode endOfFirstHalf(ListNode head) {
+        ListNode fast = head.next;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+//一个栈存从头到尾  倒置  一个栈存从尾巴到头
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> stack1 = new Stack<>();
+        Stack<Integer> stack2 = new Stack<>();
+        ListNode temp = head;
+        while(temp != null){
+            stack1.push(temp.val);
+            temp = temp.next;
+        }
+        ListNode reverseHead = reverse(head);
+        temp = reverseHead;
+        while(temp != null){
+            stack2.push(temp.val);
+            temp = temp.next;
+        }
+        while(!stack1.isEmpty()){
+            if(stack1.pop() != stack2.pop()){
+                return false;
+            }
+        }
+        return true;
+    }
+    public ListNode reverse(ListNode head){
+        ListNode pre = null;
+        ListNode cur = head;
+        while(cur != null){
+            ListNode nextNode = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = nextNode;
+        }
+        return pre;
+    }
+
+}
