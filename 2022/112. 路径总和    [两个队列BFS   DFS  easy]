@@ -1,0 +1,40 @@
+//两个队列BFS
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null)
+            return false;
+        Deque<TreeNode> dequeNode = new LinkedList<>();
+        Deque<Integer> dequeVal = new LinkedList<>();
+        dequeNode.offer(root);
+        dequeVal.offer(root.val);
+        while(!dequeVal.isEmpty()){
+            TreeNode node = dequeNode.poll();
+            int temp = dequeVal.poll();
+            if(node.left == null && node.right == null){
+                if(targetSum == temp){
+                    return true;
+                }
+                continue;
+            }
+            if(node.left != null){
+                dequeNode.offer(node.left);
+                dequeVal.offer(temp + node.left.val);
+            }
+            if(node.right != null){
+                dequeNode.offer(node.right);
+                dequeVal.offer(temp + node.right.val);
+            }
+        }
+        return false;
+    }
+}
+//递归DFS
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null)
+            return false;
+        if(root.left == null && root.right == null)
+            return targetSum == root.val;
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+}
