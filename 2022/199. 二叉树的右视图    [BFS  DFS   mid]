@@ -1,0 +1,41 @@
+//辅助  BFS  添加每行最后一个结点
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if(root == null)
+            return list;
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.offer(root);
+        while(!deque.isEmpty()){
+            int size = deque.size();
+            while(size > 0){
+                TreeNode node = deque.poll();
+                if(size - 1 == 0)
+                    list.add(node.val);
+                if(node.left != null)
+                    deque.offer(node.left);
+                if(node.right != null)
+                    deque.offer(node.right);
+                size--;
+            }
+        }
+        return list;
+    }
+}
+//DFS
+class Solution {
+    List<Integer> list = new ArrayList<>();
+    public List<Integer> rightSideView(TreeNode root) {
+        dfs(root, 0);
+        return list;
+    }
+    public void dfs(TreeNode root, int depth){
+        if(root == null)
+            return;
+        if(depth == list.size())
+            list.add(root.val);
+        depth++;
+        dfs(root.right, depth);
+        dfs(root.left, depth);
+    }
+}
