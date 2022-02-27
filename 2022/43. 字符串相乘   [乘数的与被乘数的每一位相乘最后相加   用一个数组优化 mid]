@@ -1,0 +1,88 @@
+public String multiply(String num1, String num2) {
+        if(num1.equals("0") || num2.equals("0"))
+            return "0";
+        int n = num1.length();
+        int m = num2.length();
+        String ans = "0";
+        for(int i = m - 1; i >= 0; i--){
+            StringBuffer ret = new StringBuffer();
+            int add = 0;
+            for(int j = m - 1; j > i; j--)
+                ret.append(0);
+            int multiply2 = num2.charAt(i) - '0';
+            for(int k = n - 1; k >= 0; k--){
+                int multiply1 = num1.charAt(k) - '0';
+                int res = multiply1 * multiply2 + add;
+                add = res / 10;
+                ret.append(res % 10);
+            }
+            if(add != 0)
+                ret.append(add);
+            ans = addStringSum(ans, ret.reverse().toString());
+            
+        }
+      
+        return ans;
+    }
+    public String addStringSum(String s1, String s2){
+        int i = s1.length() - 1;
+        int j = s2.length() - 1;
+        int add = 0;
+        StringBuffer ans = new StringBuffer();
+        while(i >= 0 || j >= 0 || add > 0){
+            int num1 = i >= 0 ? s1.charAt(i) - '0' : 0;
+            int num2 = j >= 0 ? s2.charAt(j) - '0' : 0;
+            int res = num1 + num2 + add;
+            add = res / 10;
+            ans.append(res % 10);
+            i--;
+            j--;
+        }
+        return ans.reverse().toString();
+    }
+     public String addStrings(String num1, String num2) {
+        int i = num1.length() - 1, j = num2.length() - 1, add = 0;
+        StringBuffer ans = new StringBuffer();
+        while (i >= 0 || j >= 0 || add != 0) {
+            int x = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int y = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int result = x + y + add;
+            ans.append(result % 10);
+            add = result / 10;
+            i--;
+            j--;
+        }
+        ans.reverse();
+        return ans.toString();
+    }
+//用一个数组优化
+class Solution {
+    public String multiply(String num1, String num2) {
+        if(num1.equals("0") || num2.equals("0"))
+            return "0";
+        int n = num1.length();
+        int m = num2.length();
+        int[] array = new int[m + n];
+        for(int i = n - 1; i >= 0; i--){
+            int y = num1.charAt(i) - '0';
+            for(int j = m - 1; j >= 0; j--){
+                int x = num2.charAt(j) - '0';
+                array[i + j + 1] += x * y;
+            }
+        }
+        for(int i = m + n - 1; i > 0; i--){
+            array[i - 1] += array[i] / 10;
+            array[i] %= 10;
+        }
+        int index = array[0] == 0 ? 1 : 0;
+        StringBuffer res = new StringBuffer();
+        while(index < m + n){
+            res.append(array[index]);
+            index++;
+        }
+        return res.toString();
+    }
+
+
+
+}
