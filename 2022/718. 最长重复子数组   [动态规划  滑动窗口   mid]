@@ -1,0 +1,47 @@
+//滑动窗口
+class Solution {
+    public int findLength(int[] A, int[] B) {
+        int n = A.length;
+        int m = B.length;
+        int ret = Integer.MIN_VALUE;
+        for(int i = 0; i < n; i++){
+            int len = Math.min(m, n - i);
+            int maxLen = maxLen(A, i, B, 0, len);
+            ret = Math.max(ret, maxLen);
+        }
+        for(int i = 0; i < m; i++){
+            int len = Math.min(n, m - i);
+            int maxLen = maxLen(A, 0, B, i, len);
+            ret = Math.max(ret, maxLen);
+        }
+        return ret;
+    }
+    public int maxLen(int[] A, int offsetA, int[] B, int offsetB, int len){
+        int ret = 0, k = 0;
+        for(int i = 0; i < len; i++){
+            if(A[offsetA + i] == B[offsetB + i])
+                k++;
+            else
+                k = 0;
+            ret = Math.max(ret, k);
+        }
+        return ret;
+    }
+}
+//动态规划
+class Solution {
+    public int findLength(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = nums2.length;
+        int res = Integer.MIN_VALUE;
+        int[][] dp = new int[n + 1][m + 1];
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= m; j++){
+                if(nums1[i - 1] == nums2[j - 1])
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                res = Math.max(res, dp[i][j]);
+            }
+        }
+        return res;
+    }
+}
