@@ -1,0 +1,23 @@
+public static String reverse (String s1, String s2) {
+        Stack<Character> stack = new Stack<>();
+        char[] charArray = s1.toCharArray();
+        int start = 0, end = s1.length() - 1;
+        while(start < end){
+            if(s2.contains(String.valueOf(charArray[start]))){
+                stack.push(charArray[start]);
+            }else{
+                start++;
+                continue;
+            }
+            if(s2.contains(String.valueOf(charArray[end]))) {
+                char temp = charArray[end];
+                charArray[end] = stack.pop();
+                charArray[start] = temp;
+                end--;
+                start++;
+            }else{
+                end--;
+            }
+        }
+        return new String(charArray);
+    }
