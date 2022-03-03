@@ -10,9 +10,9 @@ class Solution {
             res[i] = mat[x][y];
             //往右上走  判断边界
             if((x + y) % 2 == 0){
-                //第一行
-                if(y == n - 1) x++;
                 //最后一列
+                if(y == n - 1) x++;
+                //第一行
                 else if(x == 0) y++;
                 else{
                     //行--
