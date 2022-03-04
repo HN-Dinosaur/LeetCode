@@ -1,0 +1,51 @@
+//递归
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        return dfs(root, 0);
+    }
+    public int dfs(TreeNode root, int num){
+        if(root == null)
+            return 0;
+        num = num * 10 + root.val;
+        if(root.left == null && root.right == null){
+            return num;
+        }else{
+            return dfs(root.left, num) + dfs(root.right, num);
+        }
+        
+        
+    }
+}
+
+//迭代
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        if(root == null)
+            return 0;
+        int res = 0;
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        Queue<Integer> valQueue = new LinkedList<>();
+        nodeQueue.offer(root);
+        valQueue.offer(root.val);
+        while(!nodeQueue.isEmpty()){
+            TreeNode node = nodeQueue.poll();
+            int val = valQueue.poll();
+            TreeNode leftNode = node.left;
+            TreeNode rightNode = node.right;
+            if(leftNode == null && rightNode == null){
+                res += val;
+            }
+            if(leftNode != null){
+                nodeQueue.offer(leftNode);
+                valQueue.offer(val * 10 + leftNode.val);
+            }
+            if(rightNode != null){
+                nodeQueue.offer(rightNode);
+                valQueue.offer(val * 10 + rightNode.val);
+            }
+        }
+        return res;
+    }
+
+}
+
