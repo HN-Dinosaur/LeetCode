@@ -1,0 +1,23 @@
+public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || k == 0)
+            return head;
+        ListNode temp = head;
+        int len = 1;
+        while(temp.next != null){
+            temp = temp.next;
+            len++;
+        }
+        int distance = Math.abs(k % len);
+        if(distance == 0)
+            return head;
+        ListNode split = head;
+        //一个环
+        temp.next = head;
+        for(int i = 0; i < len - distance; i++){
+            if(i + 1 == len - distance)
+                split = head;
+            head = head.next;
+        }
+        split.next = null;
+        return head;
+    }
