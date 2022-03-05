@@ -1,0 +1,38 @@
+  //快慢指针
+  public ListNode middleNode(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+ //数组中位
+   public ListNode middleNode(ListNode head) {
+        List<ListNode> list = new ArrayList<>();
+        ListNode temp = head;
+        while(temp != null){
+            list.add(temp);
+            temp = temp.next;
+        }
+        return list.get(list.size() / 2);
+    }
+ //单指针
+ public ListNode middleNode(ListNode head) {
+        if(head == null)
+            return head;
+        ListNode temp = head;
+        int n = 0;
+        while(temp != null){
+            n++;
+            temp = temp.next;
+        }
+        int k = 0;
+        while(k < n / 2){
+            k++;
+            head = head.next;
+        }
+            
+        return head;
+    }
