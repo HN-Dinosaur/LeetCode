@@ -1,0 +1,75 @@
+//数组存储链接
+public void reorderList(ListNode head) {
+        if(head == null)
+            return;
+        List<ListNode> list = new ArrayList<>();
+        ListNode temp = head;
+        while(temp != null){
+            list.add(temp);
+            temp = temp.next;
+        }    
+        int i = 0;
+        int j = list.size() - 1;
+        while(i < j){
+            list.get(i).next = list.get(j);
+            i++;
+            if(i == j)
+                break;
+            list.get(j).next = list.get(i);
+            j--;
+            
+        }
+        list.get(i).next = null;
+    }
+//切割反转链接
+public void reorderList(ListNode head) {
+        if(head == null)
+            return;
+        ListNode mid = split(head);
+        ListNode nextHead = mid.next;
+        mid.next = null;
+        nextHead = reverse(nextHead);
+        merge(head, nextHead);
+    }
+    //向下取整切割
+    public ListNode split(ListNode head){
+        if(head == null)
+            return head;
+        ListNode fast = head.next;
+        ListNode slow = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+    //反转
+    public ListNode reverse(ListNode head){
+        if(head == null)
+            return head;
+        ListNode pre = null;
+        ListNode cur = head;
+        while(cur != null){
+            ListNode nextNode = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = nextNode;
+        }
+        return pre;
+    }
+    //合并
+    public void merge(ListNode list1, ListNode list2){
+        ListNode temp1;
+        ListNode temp2;
+        while(list1 != null && list2 != null){
+            temp1 = list1.next;
+            temp2 = list2.next;
+
+            list1.next = list2;
+            list1 = temp1;
+
+            list2.next = list1;
+            list2 = temp2;
+        }
+    }
+    
