@@ -1,0 +1,26 @@
+//BFS每一层最右结点 - 最左结点
+public int widthOfBinaryTree(TreeNode root) {
+        if(root == null)
+            return 0;
+        Deque<TreeNode> queue = new LinkedList<>();
+        root.val = 0;
+        queue.offer(root);
+        int res = 0;
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            res = Math.max(res, queue.getLast().val - queue.getFirst().val + 1);
+            while(size > 0){
+                TreeNode node = queue.poll();
+                if(node.left != null){
+                    node.left.val = node.val * 2 + 1;
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    node.right.val = node.val * 2 + 2;
+                    queue.offer(node.right);
+                }                
+                size--;
+            }
+        }
+        return res;
+    }
