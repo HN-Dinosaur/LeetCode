@@ -1,0 +1,21 @@
+class Solution {
+
+    int[] nums = null;
+    public Solution(int[] nums) {
+        this.nums = nums;
+    }
+    
+    public int pick(int target) {
+        Random random = new Random();
+        int n = 0;
+        int index = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(target == nums[i]){
+                n++;
+                if(random.nextInt(n) == 0)
+                    index = i;
+            }
+        }
+        return index;
+    }
+}
