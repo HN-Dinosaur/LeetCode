@@ -1,0 +1,23 @@
+//暴力
+public int bulbSwitch(int n) {
+        //一共n个灯泡  索引0的灯泡
+        boolean[] ligths = new boolean[n + 1];
+        //轮次
+        for(int i = 1; i <= n; i++){
+            //灯泡次
+            for(int j = 1; j <= n; j++){
+                if(i % j == 0)
+                    ligths[i] = !ligths[i];
+            }
+        }
+        int count = 0;
+        for(int i = 1; i <= n; i++){
+            if(ligths[i])
+                count++;
+        }
+        return count;
+    }
+//数论
+public int bulbSwitch(int n) {
+        return (int)Math.sqrt(n);
+    }
