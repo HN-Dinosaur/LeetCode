@@ -1,0 +1,41 @@
+   //判断最大结点的number == 结点数
+   int treeNodeCount = 0, maxNumber = 0;
+    public boolean isCompleteTree(TreeNode root) {
+        dfs(root, 1);
+        return treeNodeCount == maxNumber;
+    }
+    public void dfs(TreeNode root, int number){
+        if(root == null)
+            return;
+        treeNodeCount++;
+        maxNumber = Math.max(maxNumber, number);
+        dfs(root.left, number * 2);
+        dfs(root.right, number * 2 + 1);
+    }
+    //bfs
+public boolean isCompleteTree(TreeNode root) {
+        boolean stop = false;
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.offer(root);
+        while(!deque.isEmpty()){
+            TreeNode node = deque.poll();
+            if(stop){
+                if(node.left == null && node.right == null)
+                    continue;
+                else
+                    return false;
+            }
+            if(node.left != null)
+                deque.offer(node.left);
+            else
+                stop = true;
+            if(stop && node.right != null)
+                return false;
+            else if(!stop && node.right != null)
+                deque.offer(node.right);
+            else
+                stop = true;
+        }
+        return true;
+    }
+ 
