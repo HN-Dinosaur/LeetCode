@@ -1,0 +1,22 @@
+class Solution {
+    public int countEven(int num) {
+        int result = 0;
+        for (int i = 1; i <= num; i++) {
+            if (isRightNumber(i))
+                result++;
+        }
+        return result;
+    }
+
+    public boolean isRightNumber(int num) {
+        int result = 0;
+        int temp = 0;
+        while(num > 0) {
+            temp = num;
+            temp = temp % 10;
+            result += temp;
+            num = num / 10;
+        }
+        return result % 2 == 0;
+    }
+}
