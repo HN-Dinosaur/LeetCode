@@ -1,0 +1,32 @@
+class Solution {
+    func numberOfSubarrays(_ nums: [Int], _ k: Int) -> Int {
+        var left = 0
+        var right = 0
+        var result = 0
+        var oddNum = 0
+        while right < nums.count {
+            if nums[right] % 2 == 1 {
+                oddNum += 1
+            }
+            right += 1
+
+            if oddNum == k {
+                var temp = right
+                while right < nums.count && nums[right] % 2 == 0 {
+                    right += 1
+                }
+                var rightCount = right - temp
+                var leftCount = 0
+                while nums[left] % 2 == 0 {
+                    leftCount += 1
+                    left += 1
+                }
+                result += (leftCount + 1) * (rightCount + 1)
+                
+                oddNum -= 1
+                left += 1
+            }
+        }
+        return result
+    }
+}
