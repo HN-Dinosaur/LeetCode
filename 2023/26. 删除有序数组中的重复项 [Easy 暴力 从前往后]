@@ -1,3 +1,4 @@
+// 从前往后
 class Solution {
     func removeDuplicates(_ nums: inout [Int]) -> Int {
         var len = 0
@@ -15,3 +16,19 @@ class Solution {
     }
 }
 
+// 从后向前，不用处理数组下标问题
+class Solution {
+    func removeDuplicates(_ nums: inout [Int]) -> Int {
+        if nums.count <= 0 {
+            return 0
+        }
+        var len = nums.count - 1
+        while len > 0 {
+            if nums[len] == nums[len - 1] {
+                nums.remove(at: len)
+            }
+            len -= 1
+        }
+        return nums.count
+    }
+}
