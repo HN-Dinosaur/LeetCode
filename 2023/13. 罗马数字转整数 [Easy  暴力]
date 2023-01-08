@@ -37,3 +37,30 @@ class Solution {
         }
     }
 }
+
+class Solution {
+    func romanToInt(_ s: String) -> Int {
+        var dic = [Character: Int]()
+        dic["I"] = 1
+        dic["V"] = 5
+        dic["X"] = 10
+        dic["L"] = 50
+        dic["C"] = 100
+        dic["D"] = 500
+        dic["M"] = 1000
+        var result = 0
+        var preNum = dic[s.first!]!
+        for i in 1..<s.count {
+            var index = s.index(s.startIndex, offsetBy: i)
+            var nextVal = dic[s[index]]!
+            if preNum < nextVal {
+                result -= preNum
+            } else {
+                result += preNum
+            }
+            preNum = nextVal
+        }
+        result += preNum
+        return result
+    }
+}
