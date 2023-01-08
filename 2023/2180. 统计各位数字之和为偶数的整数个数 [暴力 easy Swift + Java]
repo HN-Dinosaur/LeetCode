@@ -30,3 +30,28 @@ class Solution {
 再用上边
 再用上边的
 再用上边的方法
+
+
+Swift
+
+class Solution {
+    func countEven(_ num: Int) -> Int {
+        var result = 0
+        for i in 1...num {
+            if self.isEvenNumber(i) {
+                result += 1
+            }
+        }
+        return result
+    }
+
+    func isEvenNumber(_ num: Int) -> Bool {
+        var tempRes = 0
+        var tempNum = num
+        while tempNum != 0 {
+            tempRes += tempNum % 10
+            tempNum /= 10
+        }
+        return tempRes % 2 == 0
+    }
+}
