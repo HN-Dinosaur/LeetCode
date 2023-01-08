@@ -1,0 +1,17 @@
+class Solution {
+    func removeDuplicates(_ nums: inout [Int]) -> Int {
+        var len = 0
+        if nums.count <= 0 {
+            return 0
+        }
+        for i in 1..<nums.count {
+            if nums[len] != nums[i] {
+                len += 1
+                nums[len] = nums[i]
+            }
+        }
+        nums.removeSubrange(len+1..<nums.count)
+        return len + 1
+    }
+}
+
