@@ -1,0 +1,21 @@
+class Solution {
+    func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
+        var left = 0
+        var right = nums.count - 1
+        while left <= right {
+            if nums[left] == val {
+                self.swap(&nums, left, right)
+                left -= 1
+                right -= 1
+            }
+            left += 1
+        }
+        return right + 1
+    }
+
+    func swap(_ nums: inout [Int], _ i: Int, _ j: Int) {
+        var temp = nums[i]
+        nums[i] = nums[j]
+        nums[j] = temp
+    }
+}
